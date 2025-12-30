@@ -4,7 +4,12 @@ import validator from "validator";
 
 const userSchema = new mongoose.Schema(
   {
-    fullName: {
+    firstName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    lastName: {
       type: String,
       required: true,
       trim: true,
@@ -40,6 +45,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["active", "suspended"],
       default: "active",
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
     },
     suspendReason: {
       type: String

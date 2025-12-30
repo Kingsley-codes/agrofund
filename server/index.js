@@ -4,6 +4,8 @@ import 'dotenv/config';
 import next from "next";
 import helmet from "helmet";
 import rateLimit from 'express-rate-limit';
+import authRouter from './routes/userAuthRoutes.js';
+
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -40,7 +42,7 @@ app.prepare().then(async () => {
 
     // Define API routes
 
-    // server.use("/api/auth", authRouter);  // Register auth routes
+    server.use("/api/auth", authRouter);  // Register auth routes
     // server.use("/api", donateRouter);  // Register donation routes
 
     server.get("/api", (req, res) => {

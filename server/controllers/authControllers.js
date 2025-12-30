@@ -15,10 +15,10 @@ const signToken = (id) => {
 // User Registration
 export const registerUser = async (req, res) => {
   try {
-    const { fullName, email, password, confirmPassword, phone } = req.body;
+    const { firstName, lastName, email, password, confirmPassword } = req.body;
 
     // Validate user input
-    if (!email || !password || !confirmPassword || !fullName || !phone) {
+    if (!email || !password || !confirmPassword || !firstName || !lastName) {
       return res.status(400).json({
         status: "fail",
         message: "All fields are required",
@@ -49,42 +49,11 @@ export const registerUser = async (req, res) => {
       });
     }
 
-    if (!phone || !/^\d{11}$/.test(phone)) {
-      return res.status(400).json({
-        status: "fail",
-        message: "Phone number must be exactly 11 digits",
-      });
-    }
-
-    // Check if phone number already exists - NEW CHECK
-    const existingPhoneUser = await User.findOne({ phone });
-    if (existingPhoneUser) {
-      return res.status(400).json({
-        status: "fail",
-        message: "Phone number already registered",
-      });
-    }
-
     // Validate email format
     if (!validator.isEmail(email)) {
       return res.status(400).json({
         status: "fail",
         message: "Invalid email format",
-      });
-    }
-    // Validate phone number format
-    if (!phone || !/^\d{11}$/.test(phone)) {
-      return res.status(400).json({
-        status: "fail",
-        message: "Phone number must be exactly 11 digits"
-      });
-    }
-
-    // Validate full name
-    if (!fullName || fullName.trim().length < 3) {
-      return res.status(400).json({
-        status: "fail",
-        message: "Full name must be at least 3 characters long"
       });
     }
 
@@ -104,8 +73,8 @@ export const registerUser = async (req, res) => {
       await User.create({
         email,
         password: hashedPassword,
-        fullName,
-        phone,
+        firstName,
+        lastName,
       });
     }
 
@@ -120,7 +89,6 @@ export const registerUser = async (req, res) => {
       status: "error",
       message: "Registration failed",
       error: err.message,
-      stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
     });
   }
 };
@@ -165,12 +133,12 @@ export const login = async (req, res) => {
       });
     }
 
-    if (!user.isVerified) {
-      return res.status(401).json({
-        status: "fail",
-        message: "Account not verified"
-      });
-    }
+    // if (!user.isVerified) {
+    //   return res.status(401).json({
+    //     status: "fail",
+    //     message: "Account not verified"
+    //   });
+    // }
 
     const token = signToken(user._id);
     user.password = undefined;
