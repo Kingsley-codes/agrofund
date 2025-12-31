@@ -12,12 +12,13 @@ export default function Home() {
       <Navbar />
       <TrustSection />
       <HowItWorks />
+      <SuccessStories />
       <Footer />
+      <FeaturedOpportunities />
       {/* <HeroSection />
       
       
-      <FeaturedOpportunities />
-      <SuccessStories /> */}
+      */}
     </>
   );
 }

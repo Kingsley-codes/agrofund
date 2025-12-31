@@ -1,26 +1,28 @@
-import Image from "next/image";
+"use client";
+
+import { CldImage } from "next-cloudinary";
 
 const testimonials = [
   {
-    name: "Sarah Jenkins",
-    role: "Digital Marketer",
+    name: "Ebuka Nwajiuwa",
+    Location: "Oyo, Nigeria",
     message:
-      "I've always wanted to farm but didn't have the time. Agrofund Hub bridges that gap perfectly. I've funded 3 cycles of maize and the returns have been consistent.",
-    avatar: "/avatars/sarah.jpg",
+      "Being a remote farmer seemed impossible, but this platform made it easy. I funded broilers and pigs, tracked their growth online, and when the cycle ended, I had the option to sell or get the produce. I earned profits and learned so much about farming along the way.",
+    avatar: "jcpvvrcgijhgqyilk4ry",
   },
   {
-    name: "David Okafor",
-    role: "Software Engineer",
+    name: "David Ayobami",
+    Location: "Abuja, Nigeria",
     message:
-      "The transparency is what keeps me coming back. I get weekly updates on the poultry farm I invested in. It feels good to see exactly where my money is working.",
-    avatar: "/avatars/david.jpg",
+      "I wanted to try farming without investing in land or equipment. This app connected me with producers who took care of my vegetables and poultry. I received high-quality produce and even made a profit when I chose to sell some units—truly hands-on farming from anywhere!",
+    avatar: "twnucpgeribcxhmklriu",
   },
   {
-    name: "Elena Rodriguez",
-    role: "Accountant",
+    name: "Bimpe Hassan",
+    Location: "Lagos, Nigeria",
     message:
-      "A secure way to diversify my portfolio. The insurance backing gives me peace of mind that my capital is safe regardless of harvest outcomes.",
-    avatar: "/avatars/elena.jpg",
+      "I never thought I could farm without leaving my city apartment. Through the platform, I chose maize and cassava, and local producers handled everything. At harvest, I received fresh crops straight to my door—it feels like I own a farm from home!",
+    avatar: "umkgocfaw9gbxhds2uwg",
   },
 ];
 
@@ -28,9 +30,14 @@ export default function SuccessStories() {
   return (
     <section className="py-20 bg-[#f6fff7]">
       <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">
+        <h2 className="text-3xl font-bold text-gray-800 text-center mb-12">
           Success Stories
         </h2>
+
+        <p className="text-gray-700 pb-7 italic">
+          Don&apos;t just take our word for it—here are some real stories from
+          our community ...
+        </p>
 
         <div className="grid gap-6 md:grid-cols-3">
           {testimonials.map((item, index) => (
@@ -57,16 +64,19 @@ export default function SuccessStories() {
 
               {/* User */}
               <div className="flex items-center gap-3">
-                <Image
-                  src={item.avatar}
-                  alt={item.name}
-                  width={40}
-                  height={40}
-                  className="rounded-full object-cover"
-                />
+                <div className="h-10 w-10 rounded-full">
+                  <CldImage
+                    src={item.avatar}
+                    alt={item.name}
+                    width={40}
+                    height={40}
+                    className="rounded-full object-cover"
+                  />
+                </div>
+
                 <div>
                   <p className="font-semibold text-sm">{item.name}</p>
-                  <p className="text-xs text-gray-500">{item.role}</p>
+                  <p className="text-xs text-gray-500">{item.Location}</p>
                 </div>
               </div>
             </div>

@@ -5,6 +5,9 @@ import next from "next";
 import helmet from "helmet";
 import rateLimit from 'express-rate-limit';
 import authRouter from './routes/userAuthRoutes.js';
+import adminAuthRouter from './routes/adminAuthRoutes.js';
+import adminProduceRouter from './routes/adminProduceRoutes.js';
+import produceRouter from './routes/produceRoutes.js';
 
 
 const dev = process.env.NODE_ENV !== "production";
@@ -43,7 +46,9 @@ app.prepare().then(async () => {
     // Define API routes
 
     server.use("/api/auth", authRouter);  // Register auth routes
-    // server.use("/api", donateRouter);  // Register donation routes
+    server.use("/api/produce", produceRouter);  // Register produce routes
+    server.use("/api/admin/auth", adminAuthRouter);  // Register Admin auth routes
+    server.use("/api/admin/produce", adminProduceRouter);  // Register produce routes
 
     server.get("/api", (req, res) => {
         res.json({ message: "Hello from Express API!" });
