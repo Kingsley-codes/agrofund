@@ -1,7 +1,7 @@
 import express from 'express';
 import { createProduce, deleteProduce, editProduce, getAllProduce } from '../controllers/adminProduceController.js';
 import { uploadProduceImages, handleUploadErrors } from '../middleware/uploadMiddleware.js';
-import { adminAuthenticate } from '../middleware/adminAuthMiddleware.js';
+import { adminAuthenticate } from '../middleware/authenticationMiddleware.js';
 
 const adminProduceRouter = express.Router();
 
