@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "imports": {
+    "#server/*": "./server/*"
+  },
   "scripts": {
     "dev": "nodemon server/index.js",
     "build": "next build",
