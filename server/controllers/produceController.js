@@ -1,4 +1,4 @@
-import Produce from "../models/Produce.js";
+import Produce from "../models/ProduceModel.js";
 
 
 export const getAllProduce = async (req, res) => {

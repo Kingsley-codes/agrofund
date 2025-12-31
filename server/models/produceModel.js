@@ -23,22 +23,39 @@ const produceSchema = new mongoose.Schema(
         remainingUnit: {
             type: Number,
             required: true,
-            default: this.totalUnit
+            default: function () {
+                return this.totalUnit;
+            }
         },
         image1: {
-            publicId: String,
-            url: String,
-            required: true,
+            publicId: {
+                type: String,
+                required: true,
+            },
+            url: {
+                type: String,
+                required: true,
+            },
         },
         image2: {
-            publicId: String,
-            url: String,
-            required: true,
+            publicId: {
+                type: String,
+                required: true,
+            },
+            url: {
+                type: String,
+                required: true,
+            },
         },
         image3: {
-            publicId: String,
-            url: String,
-            required: true,
+            publicId: {
+                type: String,
+                required: true,
+            },
+            url: {
+                type: String,
+                required: true,
+            },
         },
         price: {
             type: Number,

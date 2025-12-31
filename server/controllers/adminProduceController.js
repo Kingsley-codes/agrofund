@@ -1,6 +1,6 @@
 import { v2 as cloudinary } from "cloudinary";
 import streamifier from "streamifier";
-import Produce from "../models/Produce.js";
+import Produce from "../models/ProduceModel.js";
 
 
 // Configure Cloudinary
