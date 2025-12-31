@@ -10,12 +10,14 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      {/* <HeroSection />
       <TrustSection />
       <HowItWorks />
+      <Footer />
+      {/* <HeroSection />
+      
+      
       <FeaturedOpportunities />
-      <SuccessStories />
-      <Footer /> */}
+      <SuccessStories /> */}
     </>
   );
 }

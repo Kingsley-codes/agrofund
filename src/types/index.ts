@@ -13,7 +13,7 @@ export interface Opportunity {
 }
 
 export interface Step {
-  icon: string;
+  icon: React.ReactNode;
   title: string;
   description: string;
 }

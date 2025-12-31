@@ -1,6 +1,7 @@
 "use client";
 
 import { CldImage } from "next-cloudinary";
+import Link from "next/link";
 
 export default function Navbar() {
   return (
@@ -22,39 +23,45 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex flex-1 justify-center gap-8">
-          <a
-            className="text-sm font-medium hover:text-primary transition-colors"
+          <Link
+            className="text-base font-medium hover:text-primary transition-colors"
             href="#"
           >
             Investments
-          </a>
-          <a
-            className="text-sm font-medium hover:text-primary transition-colors"
+          </Link>
+          <Link
+            className="text-base font-medium hover:text-primary transition-colors"
             href="#"
           >
             How it works
-          </a>
-          <a
-            className="text-sm font-medium hover:text-primary transition-colors"
+          </Link>
+          <Link
+            className="text-base font-medium hover:text-primary transition-colors"
             href="#"
           >
             About Us
-          </a>
-          <a
-            className="text-sm font-medium hover:text-primary transition-colors"
+          </Link>
+          <Link
+            className="text-base font-medium hover:text-primary transition-colors"
             href="#"
           >
             Contact
-          </a>
+          </Link>
         </div>
 
         <div className="flex gap-3">
-          <button className="hidden sm:flex h-10 items-center justify-center rounded-xl bg-primary/10 px-4 text-sm font-bold text-text-main dark:text-white hover:bg-primary/20 transition-colors">
+          <Link
+            href="/login"
+            className="hidden sm:flex h-10 items-center justify-center rounded-xl bg-primary/10 px-4 text-sm font-bold text-text-main dark:text-white hover:bg-primary/20 transition-colors"
+          >
             Log In
-          </button>
-          <button className="flex h-10 items-center justify-center rounded-xl bg-primary px-4 text-sm font-bold text-[#111b0d] hover:bg-[#3cd610] hover:shadow-lg hover:shadow-primary/20 transition-all">
+          </Link>
+          <Link
+            href="/signup"
+            className="flex h-10 items-center justify-center rounded-xl bg-primary px-4 text-sm font-bold text-[#111b0d] hover:bg-[#3cd610] hover:shadow-lg hover:shadow-primary/20 transition-all"
+          >
             Sign Up
-          </button>
+          </Link>
         </div>
       </div>
     </nav>
