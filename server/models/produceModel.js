@@ -66,6 +66,14 @@ const produceSchema = new mongoose.Schema(
             enum: ["crops", "livestock"],
             required: true,
         },
+        duration: {
+            type: Number,
+            required: true,
+        },
+        ROI: {
+            type: Number,
+            required: true,
+        },
     },
     { timestamps: true }
 );
