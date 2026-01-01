@@ -143,13 +143,18 @@ export const login = async (req, res) => {
     const token = signToken(user._id);
     user.password = undefined;
 
-    const response = {
-      status: "success",
-      token,
-      data: { user }
-    };
 
-    res.status(200).json(response);
+    res.cookie("user_token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+
+    res.status(200).json({
+      status: "success",
+      data: { user }
+    });
 
   } catch (err) {
     console.error('Login error:', err);

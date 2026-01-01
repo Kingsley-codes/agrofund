@@ -12,11 +12,11 @@ export default function Home() {
       <Navbar />
       <TrustSection />
       <HowItWorks />
+      <FeaturedOpportunities />
       <SuccessStories />
       <Footer />
-      <FeaturedOpportunities />
+
       {/* <HeroSection />
-      
       
       */}
     </>

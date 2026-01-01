@@ -52,23 +52,20 @@ export const adminLogin = async (req, res) => {
             });
         }
 
-        // if (!admin.isVerified) {
-        //   return res.status(401).json({
-        //     status: "fail",
-        //     message: "Account not verified"
-        //   });
-        // }
-
         const token = signToken(admin._id);
         admin.password = undefined;
 
-        const response = {
-            status: "success",
-            token,
-            data: { admin }
-        };
+        res.cookie("admin_token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+        });
 
-        res.status(200).json(response);
+        res.status(200).json({
+            status: "success",
+            data: { admin }
+        });
 
     } catch (err) {
         console.error('Login error:', err);

@@ -48,17 +48,17 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("/api/auth/login", formData, {
+      const response = await axios.post("/api/admin/auth/login", formData, {
         withCredentials: true,
       });
 
       if (response.status === 200 && response.data.status === "success") {
         toast.success(response.data.message || "Login successful!");
 
-        localStorage.setItem("user", JSON.stringify(response.data.data.user));
+        localStorage.setItem("admin", JSON.stringify(response.data.data.admin));
 
         setTimeout(() => {
-          router.push("/dashboard");
+          router.push("/admin/dashboard");
         }, 1500);
       } else {
         toast.error(
@@ -175,7 +175,7 @@ export default function LoginPage() {
             {/* Header */}
             <div className="mb-6">
               <h1 className="text-2xl font-semibold text-text-main-light dark:text-text-main-dark text-center mb-2">
-                Welcome Back
+                Welcome Back Admin
               </h1>
               <p className="text-sm text-slate-500 dark:text-slate-400 text-center">
                 Invest in the future of farming today.
@@ -282,19 +282,6 @@ export default function LoginPage() {
                 )}
               </button>
             </form>
-
-            {/* Sign Up Link */}
-            <div className="mt-6 text-center">
-              <p className="text-text-main-light dark:text-text-main-dark text-sm">
-                Don&apos;t have an account?{" "}
-                <Link
-                  href="/signup"
-                  className="text-primary font-semibold hover:text-primary-dark transition-colors"
-                >
-                  Sign up
-                </Link>
-              </p>
-            </div>
           </div>
         </div>
       </div>
