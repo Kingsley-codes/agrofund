@@ -1,11 +1,16 @@
 // app/page.tsx
+"use client";
+
+import { useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import Header from "@/components/Header";
 import StatsCards from "@/components/StatsCards";
 import InvestmentTable from "@/components/InvestmentTable";
-import InvestmentForm from "@/components/InvestmentForm";
+import NewOpportunityModal from "@/components/AddProduce";
 
 export default function Producepage() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <div className="flex h-screen w-full overflow-hidden">
       <Sidebar />
@@ -45,13 +50,32 @@ export default function Producepage() {
 
             <StatsCards />
 
-            {/* Split Layout: Table & Form */}
-            <div className="flex flex-col xl:flex-row gap-6 h-full items-start">
+            {/* Full Width Active Listings Section */}
+            <div className="w-full">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-xl font-bold text-slate-900 dark:text-white">
+                  Active Listings
+                </h2>
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors"
+                >
+                  <span className="material-symbols-outlined text-[20px]">
+                    add
+                  </span>
+                  <span>New Opportunity</span>
+                </button>
+              </div>
               <InvestmentTable />
-              <InvestmentForm />
             </div>
           </div>
         </div>
+
+        {/* Modal for New Opportunity */}
+        <NewOpportunityModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
       </main>
     </div>
   );
