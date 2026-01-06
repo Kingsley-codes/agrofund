@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import StatsCards from "@/components/StatsCards";
 import InvestmentTable from "@/components/InvestmentTable";
 import NewOpportunityModal from "@/components/AddProduce";
+import { IoIosAdd } from "react-icons/io";
 
 export default function Producepage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -58,12 +59,11 @@ export default function Producepage() {
                 </h2>
                 <button
                   onClick={() => setIsModalOpen(true)}
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-medium transition-colors"
                 >
-                  <span className="material-symbols-outlined text-[20px]">
-                    add
-                  </span>
-                  <span>New Opportunity</span>
+                  <IoIosAdd className="text-white h-5 w-5 shrink-0" />
+
+                  <span>New Project</span>
                 </button>
               </div>
               <InvestmentTable />

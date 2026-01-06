@@ -1,99 +1,153 @@
-// app/components/InvestmentTable.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import InvestmentRow from "./InvestmentRow";
+import { FaSearch } from "react-icons/fa";
+import axios from "axios";
+import { toast } from "react-toastify";
+
+interface Produce {
+  _id: string;
+  produceName: string;
+  title: string;
+  description: string;
+  totalUnit: number;
+  minimumUnit: number;
+  price: number;
+  category: string;
+  duration: number;
+  ROI: number;
+  remainingUnit: number;
+  image1: { url: string };
+  image2: { url: string };
+  image3: { url: string };
+  createdAt: string;
+  updatedAt: string;
+}
 
 export default function InvestmentTable() {
-  const [investments] = useState([
-    {
-      id: "#INV-2094",
-      name: "Maize Plantation Delta",
-      category: "Crops",
-      categoryIcon: "grass",
-      roi: "15%",
-      duration: "6 Months",
-      status: "Active" as const,
-      statusColor: "green",
-      image:
-        "https://lh3.googleusercontent.com/aida-public/AB6AXuBh2cM2hE3YFgx5ltKJ6aUSmR52iNOi6hXuMZSgNRekCXO78017SXtjtthXx8dTdRTc-7IE513F68I-ECaRxGz_yZT9w682jXtejH8JZAH3TjWORslhHovhzGgL_DB7c5yHWw5XGrq8ak2WHPiNOPyzNTu9hIaZwVicO5fctrIGAMRIqgGqXZxT7gxgdarBd7B4amU3z1-9H7PKJ2XomHb5uFC7dOPssJD1xGhHF_6m9CnT70XH7dcT5zyWXM4qPbcY3LM4inQyhTM",
-    },
-    {
-      id: "#INV-3001",
-      name: "Highland Cattle Project",
-      category: "Livestock",
-      categoryIcon: "pest_control_rodent",
-      roi: "22%",
-      duration: "12 Months",
-      status: "Draft" as const,
-      statusColor: "slate",
-      image:
-        "https://lh3.googleusercontent.com/aida-public/AB6AXuAjhrz1KPCPEaicMP9rOWtp_fEnKfjuVEgeey40pgIzMubn7VIhmlSV1Zwr5b8kmP5FpnkkrTVP4JGfGnj-eZA8a9QCGoouJMd7L_TR2vCjECfciYkBULFQtEpceromWammUTJFYZL9kAFq8WgG5R8jjLZMOGoLv0WlhX42SqbP29Y-WV8dHPyrOheDtQvUfgnwAISOJlBj2BbEgA1UTBEWBXMddVP1Go_I5FCxiL6BvIADgqRMxpMYlNH80I_limyNM97bmQ6GMN8",
-    },
-    {
-      id: "#INV-1022",
-      name: "Catfish Pond B3",
-      category: "Aquaculture",
-      categoryIcon: "water_drop",
-      roi: "18%",
-      duration: "9 Months",
-      status: "Sold Out" as const,
-      statusColor: "red",
-      image:
-        "https://lh3.googleusercontent.com/aida-public/AB6AXuCbiMUs445-H314WuaYwdiJpRWez_MiHuBFegrt-XEpCSc1fu_svfymzegASUD1qtW3PpZeqGfn5Q3TvjOci-4fKR2d1zXqPyxEPSu64T6k4XWJES_cYIIZATCXT4CgMVCWPXZKUs4x05trwp5HKe9tPxV2yjaEWXCeZgxVpZUUBQgFB8yqmuUnhEJE2q-giYxz-mmiGtgappTxv3obb2m_x_swXhPItOvMcNRRkvsa4iZ7q3EFA3mrksYVxjBkBFl2pdDW9PhftTQ",
-    },
-  ]);
+  const [investments, setInvestments] = useState<Produce[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    fetchInvestments();
+  }, []);
+
+  const fetchInvestments = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("/api/admin/produce", {
+        withCredentials: true,
+      });
+
+      if (response.data.produce) {
+        setInvestments(response.data.produce);
+      }
+    } catch (error) {
+      console.error("Error fetching investments:", error);
+      toast.error("Failed to load investments");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEditSuccess = () => {
+    toast.success("Investment updated successfully!");
+    fetchInvestments(); // Refresh the list
+  };
+
+  const handleDeleteSuccess = () => {
+    toast.success("Investment deleted successfully!");
+    fetchInvestments(); // Refresh the list
+  };
+
+  // Filter investments based on search term
+  const filteredInvestments = investments.filter(
+    (investment) =>
+      investment.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      investment.produceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      investment._id.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="flex-1 w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm flex flex-col overflow-hidden">
       {/* Table Toolbar */}
-      <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex flex-wrap gap-3 items-center justify-between">
-        <h3 className="font-bold text-slate-900 dark:text-white">
+      <div className="p-3 mx-5 sm:p-4 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row gap-3 items-stretch sm:items-center justify-between">
+        <h3 className="font-bold text-slate-900 dark:text-white text-sm sm:text-base">
           Active Listings
         </h3>
-        <div className="relative w-full max-w-xs">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">
-            search
-          </span>
+        <div className="relative border border-gray-200 px-2 py-2 rounded-lg flex w-full sm:max-w-md">
           <input
-            className="w-full pl-9 pr-4 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-1 focus:ring-primary focus:border-primary"
-            placeholder="Search investments..."
+            className="bg-transparent border-none focus:ring-0 text-sm w-full text-slate-700 dark:text-slate-200 placeholder:text-slate-400"
+            placeholder="Search projects..."
             type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
+          <FaSearch className="text-gray-400 hover:text-gray-600 h-5 w-5" />
         </div>
       </div>
 
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse">
-          <thead className="bg-slate-50 dark:bg-slate-800/50 text-xs uppercase text-slate-500 dark:text-slate-400 font-semibold">
-            <tr>
-              <th className="px-6 py-4 rounded-tl-lg">Investment Name</th>
-              <th className="px-6 py-4">Category</th>
-              <th className="px-6 py-4 text-right">ROI</th>
-              <th className="px-6 py-4 text-right">Duration</th>
-              <th className="px-6 py-4">Status</th>
-              <th className="px-6 py-4 text-right rounded-tr-lg">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
-            {investments.map((investment) => (
-              <InvestmentRow key={investment.id} investment={investment} />
-            ))}
-          </tbody>
-        </table>
+        {loading ? (
+          <div className="flex justify-center items-center py-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          </div>
+        ) : (
+          <table className="w-full text-left border-collapse min-w-[640px]">
+            <thead className="bg-slate-50 dark:bg-slate-800/50 text-xs uppercase text-slate-500 dark:text-slate-400 font-semibold">
+              <tr>
+                <th className="px-3 sm:px-6 py-3 sm:py-4 rounded-tl-lg">
+                  Investment Name
+                </th>
+                <th className="hidden sm:table-cell px-3 sm:px-6 py-3 sm:py-4">
+                  Category
+                </th>
+                <th className="px-3 sm:px-6 py-3 sm:py-4 text-right">ROI</th>
+                <th className="px-3 sm:px-6 py-3 sm:py-4 text-right">
+                  Duration
+                </th>
+                <th className="px-3 sm:px-6 py-3 sm:py-4 text-right">
+                  Total Units
+                </th>
+                <th className="px-3 sm:px-6 py-3 sm:py-4 text-right rounded-tr-lg">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+              {filteredInvestments.map((investment) => (
+                <InvestmentRow
+                  key={investment._id}
+                  investment={investment}
+                  onEditSuccess={handleEditSuccess}
+                  onDeleteSuccess={handleDeleteSuccess}
+                  refreshInvestments={fetchInvestments}
+                />
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        {!loading && filteredInvestments.length === 0 && (
+          <div className="text-center py-8 text-slate-500 dark:text-slate-400">
+            No investments found
+          </div>
+        )}
       </div>
 
       {/* Pagination */}
-      <div className="p-4 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between">
+      <div className="p-3 sm:p-4 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row gap-3 items-center justify-between">
         <span className="text-xs text-slate-500 dark:text-slate-400">
-          Showing 3 of 24 listings
+          Showing {filteredInvestments.length} of {investments.length} listings
         </span>
         <div className="flex gap-2">
-          <button className="px-3 py-1 text-xs border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300">
+          <button className="px-3 py-1.5 text-xs border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">
             Previous
           </button>
-          <button className="px-3 py-1 text-xs border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300">
+          <button className="px-3 py-1.5 text-xs border border-slate-200 dark:border-slate-700 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">
             Next
           </button>
         </div>

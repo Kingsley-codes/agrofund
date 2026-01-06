@@ -1,29 +1,44 @@
-// components/NewOpportunityModal.tsx
+// app/components/EditOpportunityModal.tsx
 import { useState } from "react";
 import { IoIosClose } from "react-icons/io";
 import { MdDriveFolderUpload } from "react-icons/md";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-interface NewOpportunityModalProps {
+interface EditOpportunityModalProps {
   isOpen: boolean;
   onClose: () => void;
+  investment: {
+    _id: string;
+    produceName: string;
+    title: string;
+    description: string;
+    totalUnit: number;
+    minimumUnit: number;
+    price: number;
+    category: string;
+    duration: number;
+    ROI: number;
+  };
+  onSuccess: () => void;
 }
 
-export default function NewOpportunityModal({
+export default function EditOpportunityModal({
   isOpen,
   onClose,
-}: NewOpportunityModalProps) {
+  investment,
+  onSuccess,
+}: EditOpportunityModalProps) {
   const [formData, setFormData] = useState({
-    title: "",
-    produceName: "",
-    description: "",
-    ROI: "",
-    price: "", // Changed from costPerUnit to price to match API
-    minimumUnit: "",
-    totalUnit: "",
-    duration: "",
-    category: "",
+    title: investment.title,
+    produceName: investment.produceName,
+    description: investment.description,
+    ROI: investment.ROI.toString(),
+    price: investment.price.toString(),
+    minimumUnit: investment.minimumUnit.toString(),
+    totalUnit: investment.totalUnit.toString(),
+    duration: investment.duration.toString(),
+    category: investment.category,
     images: [] as File[],
   });
   const [loading, setLoading] = useState(false);
@@ -37,13 +52,11 @@ export default function NewOpportunityModal({
   ) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Validate file type
       if (!file.type.startsWith("image/")) {
         toast.error("Please upload only image files");
         return;
       }
 
-      // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         toast.error("Image size should be less than 5MB");
         return;
@@ -52,7 +65,7 @@ export default function NewOpportunityModal({
       const newImages = [...formData.images];
       newImages[index] = file;
       setFormData({ ...formData, images: newImages });
-      setError(""); // Clear error if upload successful
+      setError("");
     }
   };
 
@@ -62,22 +75,6 @@ export default function NewOpportunityModal({
     setError("");
 
     try {
-      // Validate all required fields
-      if (
-        !formData.title ||
-        !formData.produceName ||
-        !formData.description ||
-        !formData.ROI ||
-        !formData.price ||
-        !formData.minimumUnit ||
-        !formData.totalUnit ||
-        !formData.category ||
-        !formData.duration
-      ) {
-        throw new Error("Please fill in all required fields");
-      }
-
-      // Create FormData for file upload
       const formDataToSend = new FormData();
       formDataToSend.append("title", formData.title);
       formDataToSend.append("produceName", formData.produceName);
@@ -88,72 +85,50 @@ export default function NewOpportunityModal({
       formDataToSend.append("totalUnit", formData.totalUnit);
       formDataToSend.append("category", formData.category);
       formDataToSend.append("duration", formData.duration);
+      formDataToSend.append("produceId", investment._id);
 
-      // Validate images
-      const validImages = formData.images.filter(Boolean);
-
-      validImages.forEach((image, index) => {
+      // Only append images if new ones are uploaded
+      formData.images.filter(Boolean).forEach((image, index) => {
         formDataToSend.append(`image${index + 1}`, image);
       });
 
-      // Call API
-      const response = await axios.post("/api/admin/produce", formDataToSend, {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.patch(
+        `/api/admin/produce/`,
+        formDataToSend,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-      const data = response.data;
-
-      if (response.status !== 201) {
+      if (response.status !== 200) {
         toast.error(
-          data.message || "Failed to create produce. Please try again."
+          response.data.message || "Failed to update produce. Please try again."
         );
-        return; // Stop execution if there's an error
+        return;
       }
 
-      console.log("Produce created successfully:", data);
-
-      // Reset form
-      setFormData({
-        title: "",
-        produceName: "",
-        description: "",
-        ROI: "",
-        price: "",
-        minimumUnit: "",
-        totalUnit: "",
-        duration: "",
-        category: "",
-        images: [],
-      });
-
-      // Close modal
+      toast.success(response.data.message || "Produce updated successfully!");
+      onSuccess();
       onClose();
-
-      // Show success message
-      toast.success(data.message || "Produce created successfully!");
     } catch (err: any) {
-      console.error("Error creating produce:", err);
+      console.error("Error updating produce:", err);
 
-      // Handle different types of errors
       if (axios.isAxiosError(err)) {
-        // Axios error (network error or server responded with error status)
         const errorMessage =
           err.response?.data?.message ||
           err.response?.data?.error ||
           err.message ||
-          "An error occurred while creating the produce";
+          "An error occurred while updating the produce";
 
         toast.error(errorMessage);
         setError(errorMessage);
       } else if (err instanceof Error) {
-        // Generic JavaScript error
         toast.error(err.message || "An unexpected error occurred");
         setError(err.message || "An unexpected error occurred");
       } else {
-        // Unknown error type
         toast.error("An unknown error occurred");
         setError("An unknown error occurred");
       }
@@ -164,23 +139,20 @@ export default function NewOpportunityModal({
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
-      {/* Backdrop */}
       <div
         className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
 
-      {/* Modal */}
       <div className="flex min-h-full items-center justify-center p-4">
         <div className="relative bg-white dark:bg-slate-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-          {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
             <div>
               <h2 className="text-xl font-bold text-slate-900 dark:text-white">
-                New Project
+                Edit Project
               </h2>
               <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">
-                Create a new project vehicle for remote farmers join
+                Edit project details
               </p>
             </div>
             <button
@@ -192,9 +164,7 @@ export default function NewOpportunityModal({
             </button>
           </div>
 
-          {/* Form */}
           <form onSubmit={handleSubmit} className="p-6">
-            {/* Error Message - You can keep this or remove it since we're using toast */}
             {error && (
               <div className="mb-6 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
                 <p className="text-red-600 dark:text-red-400 text-sm">
@@ -204,7 +174,6 @@ export default function NewOpportunityModal({
             )}
 
             <div className="space-y-6">
-              {/* Basic Information */}
               <div>
                 <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-4">
                   Basic Information
@@ -267,7 +236,6 @@ export default function NewOpportunityModal({
                 </div>
               </div>
 
-              {/* Investment Details */}
               <div>
                 <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-4">
                   Project Details
@@ -330,7 +298,6 @@ export default function NewOpportunityModal({
                       disabled={loading}
                     />
                   </div>
-
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                       Expected ROI (%) *
@@ -349,10 +316,6 @@ export default function NewOpportunityModal({
                       required
                       disabled={loading}
                     />
-                    <p className="text-xs text-slate-500 dark:text-slate-400">
-                      Expected return, if you decide we should handle the sale
-                      for you
-                    </p>
                   </div>
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -391,10 +354,9 @@ export default function NewOpportunityModal({
                 </div>
               </div>
 
-              {/* Image Upload Section */}
               <div>
                 <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-4">
-                  Upload Images (Exactly 3 images required)
+                  Update Images (Optional)
                 </h3>
                 <div className="flex gap-4">
                   {[0, 1, 2].map((index) => (
@@ -440,19 +402,19 @@ export default function NewOpportunityModal({
                         />
                       </label>
                       <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
-                        Image {index + 1}
+                        Image {index + 1}{" "}
+                        {!formData.images[index] && "(Keep existing)"}
                       </p>
                     </div>
                   ))}
                 </div>
                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
-                  Upload exactly 3 images to showcase your produce (Max 5MB
-                  each)
+                  Upload new images to replace existing ones (Max 5MB each).
+                  Leave empty to keep current images.
                 </p>
               </div>
             </div>
 
-            {/* Form Actions */}
             <div className="flex justify-end gap-3 pt-6 mt-6 border-t border-slate-200 dark:border-slate-700">
               <button
                 type="button"
@@ -489,10 +451,10 @@ export default function NewOpportunityModal({
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                       ></path>
                     </svg>
-                    Creating...
+                    Updating...
                   </>
                 ) : (
-                  "Create Produce"
+                  "Update Produce"
                 )}
               </button>
             </div>

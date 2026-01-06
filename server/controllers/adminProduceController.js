@@ -47,9 +47,9 @@ export const createProduce = async (req, res) => {
             });
         }
 
-        const { produceName, title, totalUnit, description, price, category } = req.body;
+        const { produceName, title, totalUnit, duration, minimumUnit, ROI, description, price, category } = req.body;
 
-        if (!produceName || !title || !totalUnit || !description || !price || !category) {
+        if (!produceName || !title || !totalUnit || !duration || !minimumUnit || !ROI || !description || !price || !category) {
             return res.status(400).json({
                 message: "All fields are required"
             });
@@ -62,24 +62,24 @@ export const createProduce = async (req, res) => {
             });
         }
 
-        if (!req.files || !req.files.image1 || !req.files.image2 || !req.files.image3) {
+        if (!req.files || !req.files?.image1?.[0] || !req.files?.image2?.[0] || !req.files?.image3?.[0]) {
             return res.status(400).json({
                 error: "All images are required"
             });
         }
 
         const uploadResult1 = await uploadToCloudinary(
-            req.files.image1.buffer,
+            req.files.image1[0].buffer,
             "AgroFund Hub/produce_images"
         );
 
         const uploadResult2 = await uploadToCloudinary(
-            req.files.image2.buffer,
+            req.files.image2[0].buffer,
             "AgroFund Hub/produce_images"
         );
 
         const uploadResult3 = await uploadToCloudinary(
-            req.files.image3.buffer,
+            req.files.image3[0].buffer,
             "AgroFund Hub/produce_images"
         );
 
@@ -87,8 +87,11 @@ export const createProduce = async (req, res) => {
             produceName,
             title,
             totalUnit,
+            minimumUnit,
             description,
             price,
+            duration,
+            ROI,
             category,
             image1: {
                 publicId: uploadResult1.public_id,
@@ -130,18 +133,18 @@ export const deleteProduce = async (req, res) => {
         }
         const { produceId } = req.params;
 
-        const produce = await Produce.findByIdAndDelete(produceId);
+        // Find and delete in one query, but get the document back
+        const produce = await Produce.findOneAndDelete({ _id: produceId });
         if (!produce) {
             return res.status(404).json({
                 message: "Produce not found"
             });
         }
 
+        // Delete images from Cloudinary
         await deleteFromCloudinary(produce.image1.publicId);
         await deleteFromCloudinary(produce.image2.publicId);
         await deleteFromCloudinary(produce.image3.publicId);
-
-        await Produce.findByIdAndDelete(produceId);
 
         res.status(200).json({
             message: "Produce deleted successfully"
@@ -154,7 +157,6 @@ export const deleteProduce = async (req, res) => {
         });
     }
 };
-
 
 export const editProduce = async (req, res) => {
     try {

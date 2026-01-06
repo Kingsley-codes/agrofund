@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import 'dotenv/config';
 import next from "next";
 import helmet from "helmet";
+import cookieParser from "cookie-parser";
 import rateLimit from 'express-rate-limit';
 import authRouter from './routes/userAuthRoutes.js';
 import adminAuthRouter from './routes/adminAuthRoutes.js';
@@ -30,6 +31,7 @@ app.prepare().then(async () => {
 
     // Middleware    
     server.use('/api', express.json());
+    server.use('/api', cookieParser());
     server.use('/api', express.urlencoded({ extended: true }));
     server.use('/api', helmet());
     server.use('/api', limiter);

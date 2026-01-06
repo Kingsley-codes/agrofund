@@ -20,6 +20,10 @@ const produceSchema = new mongoose.Schema(
             type: Number,
             required: true,
         },
+        minimumUnit: {
+            type: Number,
+            required: true,
+        },
         remainingUnit: {
             type: Number,
             required: true,
