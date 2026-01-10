@@ -13,11 +13,11 @@ export default function Toolbar({
     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
       <div>
         <h2 className="text-xl font-bold text-text-main dark:text-white">
-          Investment Opportunities
+          Active farms
         </h2>
         {totalCount !== undefined && (
           <p className="text-sm text-text-muted mt-1">
-            {totalCount} opportunities available
+            {totalCount} farm projects available
           </p>
         )}
       </div>

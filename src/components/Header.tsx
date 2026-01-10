@@ -141,13 +141,13 @@ export default function Header() {
 
           <div className="flex items-center gap-4 lg:gap-8">
             {/* Search */}
-            <div className="hidden md:flex items-center h-10 w-64 lg:w-80 bg-slate-100 dark:bg-white/5 rounded-xl px-4 border border-transparent focus-within:border-primary transition-colors">
+            <div className="hidden relative md:flex items-center h-10 w-64 lg:w-80 bg-slate-100 dark:bg-white/5 rounded-xl px-8 border border-transparent focus-within:border-primary transition-colors">
               <input
-                className="bg-transparent border-none focus:ring-0 text-sm w-full text-slate-700 dark:text-slate-200 placeholder:text-slate-400"
+                className="bg-transparent border-none mr-2 focus:ring-0 text-sm w-full text-slate-700 dark:text-slate-200 placeholder:text-slate-400"
                 placeholder="Search users, IDs..."
                 type="text"
               />
-              <FaSearch className="text-gray-700 h-5 w-5" />
+              <FaSearch className="text-gray-700 absolute right-2.5 top-2.5" />
             </div>
 
             {/* Actions */}

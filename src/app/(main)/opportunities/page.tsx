@@ -3,8 +3,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Opportunity, ApiResponse } from "@/lib/index";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import OpportunityCard from "@/components/OpportunityCard";
 import StatsBanner from "@/components/StatsBanner";
 import Toolbar from "@/components/Toolbar";
@@ -135,14 +133,12 @@ export default function OpportunitiesPage() {
   if (loading) {
     return (
       <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
-        <Navbar />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
             <p className="mt-4 text-text-main">Loading opportunities...</p>
           </div>
         </main>
-        <Footer />
       </div>
     );
   }
@@ -150,7 +146,6 @@ export default function OpportunitiesPage() {
   if (error) {
     return (
       <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
-        <Navbar />
         <main className="flex-1 flex items-center justify-center">
           <div className="text-center">
             <p className="text-red-500 text-lg">{error}</p>
@@ -162,15 +157,12 @@ export default function OpportunitiesPage() {
             </button>
           </div>
         </main>
-        <Footer />
       </div>
     );
   }
 
   return (
     <div className="relative flex min-h-screen w-full flex-col overflow-x-hidden">
-      <Navbar />
-
       <main className="flex-1">
         <StatsBanner totalCount={totalCount} />
 
@@ -212,8 +204,6 @@ export default function OpportunitiesPage() {
           </div>
         </div>
       </main>
-
-      <Footer />
     </div>
   );
 }

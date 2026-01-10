@@ -128,31 +128,9 @@ body {
   background-clip: text;
 }
 
-/* Custom scrollbar */
-/* ::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--background-light);
-}
-
-.dark ::-webkit-scrollbar-track {
-  background: var(--background-dark);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-dark);
-} */
-
 /* Focus styles */
 *:focus-visible {
-  outline: 2px solid var(--primary);
+  outline: 1px solid var(--secondary-gray);
   outline-offset: 2px;
 }
 

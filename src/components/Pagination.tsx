@@ -1,5 +1,7 @@
 "use client";
 
+import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
+
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -24,7 +26,7 @@ export default function Pagination({
           disabled={currentPage === 1}
           className="flex size-10 items-center justify-center rounded-xl border border-border-color bg-surface-light text-text-main hover:border-primary hover:text-primary disabled:opacity-50 dark:bg-surface-dark dark:border-green-900 dark:text-white"
         >
-          <span className="material-symbols-outlined">chevron_left</span>
+          <FaChevronLeft />
         </button>
 
         {pages.map((page) => (
@@ -46,7 +48,7 @@ export default function Pagination({
           disabled={currentPage === totalPages}
           className="flex size-10 items-center justify-center rounded-xl border border-border-color bg-surface-light text-text-main hover:border-primary hover:text-primary disabled:opacity-50 dark:bg-surface-dark dark:border-green-900 dark:text-white"
         >
-          <span className="material-symbols-outlined">chevron_right</span>
+          <FaChevronRight />
         </button>
       </div>
     </div>

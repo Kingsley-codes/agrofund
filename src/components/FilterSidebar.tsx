@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { TbCurrencyNaira } from "react-icons/tb";
+import { GiGoat, GiDoubleFish, GiGrass } from "react-icons/gi";
 
 interface FilterSidebarProps {
   onFilterChange: (filters: any) => void;
@@ -37,9 +39,9 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
 
   return (
     <aside className="flex w-full flex-col gap-6 lg:w-72 lg:shrink-0">
-      <div className="sticky top-24 flex flex-col gap-6 rounded-2xl border border-border-color bg-surface-light p-5 shadow-sm dark:bg-surface-dark dark:border-green-900">
+      <div className="sticky top-24 flex flex-col gap-6 rounded-2xl border border-gray-200 bg-surface-light p-5 shadow-sm dark:bg-surface-dark dark:border-green-900">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-bold text-text-main dark:text-white">
+          <h3 className="text-lg font-bold text-gray-700 dark:text-white">
             Filters
           </h3>
           <button
@@ -52,38 +54,42 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
 
         {/* Price Range */}
         <div className="flex flex-col gap-3">
-          <label className="text-sm font-bold text-text-main dark:text-gray-200">
+          <label className="text-sm font-bold text-gray-700 dark:text-gray-200">
             Investment Range
           </label>
           <div className="grid grid-cols-2 gap-3">
             <div className="relative">
-              <span className="absolute left-3 top-2.5 text-text-muted">$</span>
+              <span className="absolute left-2.5 top-2.5 text-gray-700">
+                <TbCurrencyNaira />
+              </span>{" "}
               <input
                 type="number"
                 placeholder="Min"
                 value={minPrice}
                 onChange={(e) => setMinPrice(e.target.value)}
-                className="w-full rounded-lg border-border-color bg-background-light py-2 pl-6 pr-2 text-sm focus:border-primary focus:ring-primary dark:bg-background-dark dark:border-green-800"
+                className="w-full rounded-lg border-border-color bg-background-light py-2 pl-7 pr-2 text-sm focus:border-primary focus:ring-primary dark:bg-background-dark dark:border-green-800"
               />
             </div>
             <div className="relative">
-              <span className="absolute left-3 top-2.5 text-text-muted">$</span>
+              <span className="absolute left-2.5 top-2.5 text-gray-700">
+                <TbCurrencyNaira />
+              </span>
               <input
                 type="number"
                 placeholder="Max"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
-                className="w-full rounded-lg border-border-color bg-background-light py-2 pl-6 pr-2 text-sm focus:border-primary focus:ring-primary dark:bg-background-dark dark:border-green-800"
+                className="w-full rounded-lg border-border-color bg-background-light py-2 pl-7 pr-2 text-sm focus:border-primary focus:ring-primary dark:bg-background-dark dark:border-green-800"
               />
             </div>
           </div>
         </div>
 
-        <hr className="border-border-color dark:border-green-900" />
+        <hr className="border-gray-200 dark:border-green-900" />
 
         {/* Categories */}
         <div className="flex flex-col gap-3">
-          <label className="text-sm font-bold text-text-main dark:text-gray-200">
+          <label className="text-sm font-bold text-gray-700 dark:text-gray-200">
             Category
           </label>
 
@@ -95,10 +101,19 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
               className="h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary"
             />
             <span className="flex items-center gap-2 text-sm font-medium text-text-main dark:text-gray-300 group-hover:text-primary">
-              <span className="material-symbols-outlined text-[20px]">
-                grass
-              </span>
-              All Crops
+              All
+            </span>
+          </label>
+          <label className="flex items-center gap-3 cursor-pointer group">
+            <input
+              type="checkbox"
+              checked={categories.includes("all")}
+              onChange={() => toggleCategory("all")}
+              className="h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary"
+            />
+            <span className="flex items-center gap-2 text-sm font-medium text-text-main dark:text-gray-300 group-hover:text-primary">
+              <GiGrass />
+              Crops
             </span>
           </label>
 
@@ -110,10 +125,21 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
               className="h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary"
             />
             <span className="flex items-center gap-2 text-sm font-medium text-text-main dark:text-gray-300 group-hover:text-primary">
-              <span className="material-symbols-outlined text-[20px]">
-                pets
-              </span>
+              <GiGoat />
               Livestock
+            </span>
+          </label>
+
+          <label className="flex items-center gap-3 cursor-pointer group">
+            <input
+              type="checkbox"
+              checked={categories.includes("livestock")}
+              onChange={() => toggleCategory("livestock")}
+              className="h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary"
+            />
+            <span className="flex items-center gap-2 text-sm font-medium text-text-main dark:text-gray-300 group-hover:text-primary">
+              <GiDoubleFish />
+              Fisheries
             </span>
           </label>
         </div>
@@ -140,7 +166,7 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
           ))}
         </div>
 
-        <hr className="border-border-color dark:border-green-900" />
+        <hr className="border-gray-200 dark:border-green-900" />
 
         {/* Duration */}
         <div className="flex flex-col gap-3">
