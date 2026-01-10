@@ -3,16 +3,29 @@ import Produce from "../models/produceModel.js";
 
 export const getAllProduce = async (req, res) => {
     try {
-
         const produceList = await Produce.find()
             .sort({ createdAt: -1 });
 
+        // Calculate percentage remaining for each produce and add it to the response
+        const produceWithPercentage = produceList.map(produce => {
+            const remainingPercentage = (produce.remainingUnit / produce.totalUnit) * 100;
+
+            return {
+                ...produce.toObject(),
+                remainingPercentage: Math.round(remainingPercentage * 10) / 10, // Round to 1 decimal place
+                // Or use toFixed(1) if you want string: remainingPercentage.toFixed(1)
+            };
+        });
+
         res.status(200).json({
-            produce: produceList
+            success: true,
+            count: produceWithPercentage.length,
+            produce: produceWithPercentage
         });
     } catch (error) {
         console.error("Error fetching produce:", error);
         res.status(500).json({
+            success: false,
             message: "Server error",
             error: error.message
         });

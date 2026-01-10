@@ -1,4 +1,4 @@
-import { Opportunity } from "@/types";
+import { Opportunity } from "@/lib";
 
 interface OpportunityCardProps {
   opportunity: Opportunity;
@@ -25,7 +25,7 @@ export default function OpportunityCard({ opportunity }: OpportunityCardProps) {
     }
   };
 
-  const colors = getTypeColor(opportunity.type);
+  const colors = getTypeColor(opportunity.category);
 
   return (
     <div className="flex flex-col overflow-hidden rounded-2xl bg-surface-light dark:bg-surface-dark shadow-sm hover:shadow-xl transition-shadow border border-black/5 dark:border-white/5">
@@ -34,7 +34,7 @@ export default function OpportunityCard({ opportunity }: OpportunityCardProps) {
           <span className="material-symbols-outlined align-middle text-sm mr-1">
             location_on
           </span>
-          {opportunity.location}
+          {opportunity.produceName}
         </div>
         <div
           className="h-full w-full bg-cover bg-center transition-transform duration-500 hover:scale-105"
@@ -48,7 +48,7 @@ export default function OpportunityCard({ opportunity }: OpportunityCardProps) {
           <span
             className={`rounded-full ${colors.bg} px-2.5 py-0.5 text-xs font-bold ${colors.text}`}
           >
-            {opportunity.type}
+            {opportunity.category}
           </span>
           <span className="text-xs font-medium text-text-muted">
             {opportunity.duration}

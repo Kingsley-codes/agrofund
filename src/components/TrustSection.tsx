@@ -1,4 +1,4 @@
-import { Logo } from "../types";
+import { Logo } from "../lib";
 
 const logos: Logo[] = [
   { icon: "agriculture", name: "AgriTech" },

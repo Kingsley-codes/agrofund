@@ -70,6 +70,10 @@ const produceSchema = new mongoose.Schema(
             enum: ["crops", "livestock"],
             required: true,
         },
+        isFeatured: {
+            type: Boolean,
+            default: false,
+        },
         duration: {
             type: Number,
             required: true,

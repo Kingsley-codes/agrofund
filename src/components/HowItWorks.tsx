@@ -1,4 +1,4 @@
-import { Step } from "@/types";
+import { Step } from "@/lib";
 import { FaSearch, FaRegUser, FaWallet } from "react-icons/fa";
 
 const steps: Step[] = [

@@ -47,7 +47,7 @@ export const createProduce = async (req, res) => {
             });
         }
 
-        const { produceName, title, totalUnit, duration, minimumUnit, ROI, description, price, category } = req.body;
+        const { produceName, isFeatured, title, totalUnit, duration, minimumUnit, ROI, description, price, category } = req.body;
 
         if (!produceName || !title || !totalUnit || !duration || !minimumUnit || !ROI || !description || !price || !category) {
             return res.status(400).json({
@@ -90,6 +90,7 @@ export const createProduce = async (req, res) => {
             minimumUnit,
             description,
             price,
+            isFeatured,
             duration,
             ROI,
             category,

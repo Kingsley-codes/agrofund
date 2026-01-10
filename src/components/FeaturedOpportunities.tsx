@@ -1,30 +1,31 @@
-import React from "react";
 import OpportunityCard from "./OpportunityCard";
-import { Opportunity } from "@/types";
+import { Opportunity } from "@/lib";
 
 const opportunities: Opportunity[] = [
   {
-    id: 1,
+    id: "1",
     title: "Maize Farm Expansion Phase 2",
-    location: "Oyo, Nigeria",
-    type: "Crop Farm",
+    produceName: "Maize",
+    category: "Crop Farm",
     duration: "6 Months",
-    roi: "25%",
-    unitPrice: "$50",
+    roi: 25,
+    unitPrice: 50,
     fundedPercentage: 65,
     unitsLeft: 235,
     imageUrl:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuAy9qcGzbMnPiP30Oboa9fCRLWPI0zjN1YxRz9dNm73E9rbocg-ka0x0KtfDXkd03oSpWRPF97wUdz-szXYwIZbGSRg1KEmT7R7zUTMxlrDsktY-IdJlzlZU5ld0hfyd9ztjEAwYNNNyvFolUzyWxzp5soRvaXpJACb2-Kb4zT9MeBBORkJD3IkaFmfzI-8w_LzOnKjMz9XvKJchgrYApZDlx66FAPJ4hU6P1fhXpmQbI1g4jw5rs5xt4cJH8lXjKHNf15GQOmIIu0",
+    minInvestment: 50,
     imageAlt: "Golden maize field ready for harvest",
   },
   {
-    id: 2,
+    id: "2",
     title: "Commercial Poultry Setup",
-    location: "Kano, Nigeria",
-    type: "Livestock",
+    produceName: "Chickens",
+    category: "Livestock",
     duration: "9 Months",
-    roi: "32%",
-    unitPrice: "$85",
+    roi: 32,
+    unitPrice: 85,
+    minInvestment: 50,
     fundedPercentage: 88,
     unitsLeft: 54,
     imageUrl:
@@ -32,13 +33,14 @@ const opportunities: Opportunity[] = [
     imageAlt: "Healthy poultry chickens feeding",
   },
   {
-    id: 3,
+    id: "3",
     title: "Cashew Plantation Investment",
-    location: "Accra, Ghana",
-    type: "Crop Farm",
+    produceName: "Cashew Nuts",
+    category: "Crop Farm",
     duration: "12 Months",
-    roi: "28%",
-    unitPrice: "$75",
+    roi: 28,
+    unitPrice: 75,
+    minInvestment: 50,
     fundedPercentage: 42,
     unitsLeft: 189,
     imageUrl:
