@@ -139,7 +139,7 @@ export default function FilterSidebar({ onFilterChange }: FilterSidebarProps) {
             />
             <span className="flex items-center gap-2 text-sm font-medium text-text-main dark:text-gray-300 group-hover:text-primary">
               <GiDoubleFish />
-              Fisheries
+              Aquaculture
             </span>
           </label>
         </div>

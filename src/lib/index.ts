@@ -43,14 +43,17 @@ export interface ApiProduce {
     url: string;
     publicId: string;
   };
+  image1Alt: string;
   image2: {
     url: string;
     publicId: string;
   };
+  image2Alt: string;
   image3: {
     url: string;
     publicId: string;
   };
+  image3Alt: string;
   isFeatured: boolean;
   createdAt: string;
   updatedAt: string;

@@ -2,39 +2,18 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Opportunity, ApiResponse } from "@/lib/index";
+import { ApiResponse, ApiProduce } from "@/lib/index";
 import OpportunityCard from "@/components/OpportunityCard";
 import StatsBanner from "@/components/StatsBanner";
 import Toolbar from "@/components/Toolbar";
 import Pagination from "@/components/Pagination";
 import FilterSidebar from "@/components/FilterSidebar";
 
-// Transform API data to Opportunity format
-const transformApiDataToOpportunities = (
-  apiData: ApiResponse
-): Opportunity[] => {
-  return apiData.produce.map((item) => ({
-    id: item._id,
-    title: item.title,
-    produceName: item.produceName,
-    duration: `${item.duration} Months`,
-    roi: item.ROI,
-    unitPrice: item.price,
-    minInvestment: item.minimumUnit * item.price, // Calculate minimum investment
-    fundedPercentage: 100 - item.remainingPercentage, // Convert remaining to funded percentage
-    category: item.category === "crops" ? "Crop Farm" : "Livestock",
-    unitsLeft: item.remainingUnit,
-    imageUrl: item.image1.url, // Use first image
-    imageAlt: `${item.produceName} farm field`,
-    icon: item.category === "crops" ? "eco" : "egg_alt",
-  }));
-};
-
 export default function OpportunitiesPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortBy, setSortBy] = useState("recommended");
   const [activeFilter, setActiveFilter] = useState("all");
-  const [opportunities, setOpportunities] = useState<Opportunity[]>([]);
+  const [opportunities, setOpportunities] = useState<ApiProduce[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [totalPages, setTotalPages] = useState(1);
@@ -48,10 +27,7 @@ export default function OpportunitiesPage() {
         const response = await axios.get<ApiResponse>("/api/produce");
 
         if (response.data.success) {
-          const transformedData = transformApiDataToOpportunities(
-            response.data
-          );
-          setOpportunities(transformedData);
+          setOpportunities(response.data.produce);
           setTotalCount(response.data.count);
           setTotalPages(Math.ceil(response.data.count / 9)); // Assuming 9 items per page
         } else {
@@ -80,30 +56,23 @@ export default function OpportunitiesPage() {
 
     switch (newSort) {
       case "roi-high":
-        sortedOpportunities.sort((a, b) => b.roi - a.roi);
+        sortedOpportunities.sort((a, b) => b.ROI - a.ROI);
         break;
       case "roi-low":
-        sortedOpportunities.sort((a, b) => a.roi - b.roi);
+        sortedOpportunities.sort((a, b) => a.ROI - b.ROI);
         break;
       case "duration-short":
-        sortedOpportunities.sort((a, b) => {
-          const aDuration = parseInt(a.duration);
-          const bDuration = parseInt(b.duration);
-          return aDuration - bDuration;
-        });
+        sortedOpportunities.sort((a, b) => a.duration - b.duration);
         break;
       case "duration-long":
-        sortedOpportunities.sort((a, b) => {
-          const aDuration = parseInt(a.duration);
-          const bDuration = parseInt(b.duration);
-          return bDuration - aDuration;
-        });
+        sortedOpportunities.sort((a, b) => b.duration - a.duration);
+
         break;
       case "price-low":
-        sortedOpportunities.sort((a, b) => a.unitPrice - b.unitPrice);
+        sortedOpportunities.sort((a, b) => a.price - b.price);
         break;
       case "price-high":
-        sortedOpportunities.sort((a, b) => b.unitPrice - a.unitPrice);
+        sortedOpportunities.sort((a, b) => b.price - a.price);
         break;
       default:
         // Recommended sorting (you can define your own logic)
@@ -188,7 +157,7 @@ export default function OpportunitiesPage() {
                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
                   {paginatedOpportunities.map((opportunity) => (
                     <OpportunityCard
-                      key={opportunity.id}
+                      key={opportunity._id}
                       opportunity={opportunity}
                     />
                   ))}

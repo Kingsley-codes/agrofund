@@ -7,14 +7,11 @@ import SuccessStories from "@/components/SuccessStories";
 export default function Home() {
   return (
     <>
+      <HeroSection />
       <TrustSection />
       <HowItWorks />
       <FeaturedOpportunities />
       <SuccessStories />
-
-      {/* <HeroSection />
-      
-      */}
     </>
   );
 }

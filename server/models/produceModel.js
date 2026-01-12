@@ -67,7 +67,7 @@ const produceSchema = new mongoose.Schema(
         },
         category: {
             type: String,
-            enum: ["crops", "livestock"],
+            enum: ["crops", "livestock", "aquaculture"],
             required: true,
         },
         isFeatured: {

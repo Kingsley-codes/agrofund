@@ -68,11 +68,11 @@ export default function FeaturedOpportunities() {
           </a>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {opportunities.map((opportunity) => (
             <OpportunityCard key={opportunity.id} opportunity={opportunity} />
           ))}
-        </div>
+        </div> */}
 
         <div className="mt-8 sm:hidden text-center">
           <a
