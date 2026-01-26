@@ -1,10 +1,10 @@
 // app/page.tsx
-import Sidebar from "@/components/Sidebar";
-import Header from "@/components/Header";
-import StatsCards from "@/components/StatsCards";
-import InvestmentChart from "@/components/InvestmentChart";
-import PortfolioMix from "@/components/PortfolioMix";
-import RecentTransactions from "@/components/RecentTransactions";
+import Sidebar from "@/components/adminDashboard/Sidebar";
+import Header from "@/components/adminDashboard/Header";
+import StatsCards from "@/components/adminDashboard/StatsCards";
+import InvestmentChart from "@/components/adminDashboard/InvestmentChart";
+import PortfolioMix from "@/components/adminDashboard/PortfolioMix";
+import RecentTransactions from "@/components/adminDashboard/RecentTransactions";
 
 export default function Home() {
   return (

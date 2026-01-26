@@ -2,11 +2,11 @@
 "use client";
 
 import { useState } from "react";
-import Sidebar from "@/components/Sidebar";
-import Header from "@/components/Header";
-import StatsCards from "@/components/StatsCards";
-import InvestmentTable from "@/components/InvestmentTable";
-import NewOpportunityModal from "@/components/AddProduce";
+import Sidebar from "@/components/adminDashboard/Sidebar";
+import Header from "@/components/adminDashboard/Header";
+import StatsCards from "@/components/adminDashboard/StatsCards";
+import InvestmentTable from "@/components/adminDashboard/InvestmentTable";
+import NewOpportunityModal from "@/components/adminDashboard/AddProduce";
 import { IoIosAdd } from "react-icons/io";
 
 export default function Producepage() {

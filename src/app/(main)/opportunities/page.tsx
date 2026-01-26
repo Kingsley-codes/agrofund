@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { ApiResponse, ApiProduce } from "@/lib/index";
-import OpportunityCard from "@/components/OpportunityCard";
-import StatsBanner from "@/components/StatsBanner";
-import Toolbar from "@/components/Toolbar";
-import Pagination from "@/components/Pagination";
-import FilterSidebar from "@/components/FilterSidebar";
+import OpportunityCard from "@/components/opportunities/OpportunityCard";
+import StatsBanner from "@/components/opportunities/StatsBanner";
+import Toolbar from "@/components/opportunities/Toolbar";
+import Pagination from "@/components/opportunities/Pagination";
+import FilterSidebar from "@/components/opportunities/FilterSidebar";
 
 export default function OpportunitiesPage() {
   const [currentPage, setCurrentPage] = useState(1);
